@@ -1,13 +1,22 @@
+import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const QueryInput = () => {
+const QueryInput = props => {
+    const navigate = useNavigate();
     const [query, setQuery] = useState('');
     const [table, setTable] = useState('');
+    
+
+    const callAPI = props => {
+        navigate('/result/' + query + '/' + table);
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = { query, table };
         console.log(data);
+        callAPI({query, table});
     }
 
     return (
@@ -25,6 +34,7 @@ const QueryInput = () => {
                     value={table}
                     onChange={(e) => setTable(e.target.value)}
                 >
+                    <option value="N/A">Select table</option>
                     <option value="TestRunDetails">tests</option>
                     <option value="DeploymentMetadata">deployments</option>
                     <option value="Sybase_Results">sybase</option>
